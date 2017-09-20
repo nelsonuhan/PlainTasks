@@ -105,7 +105,7 @@ class PlainTasksFold(PlainTasksEnabled):
                 if all((p not in task_regions, project_block.contains(due_block))):
                     task_regions.append(p)
                     add_note(p)
-                if self.view.indented_region(p.begin()).empty():
-                    break
+                # if self.view.indented_region(p.begin()).empty():
+                #     break
         task_regions.sort()
         return task_regions
