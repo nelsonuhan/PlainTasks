@@ -969,6 +969,20 @@ class PlainTasksFoldToTags(PlainTasksFold):
         return tags
 
 
+class PlainTasksFoldToToday(PlainTasksFold):
+    TAG = r'(?u)@\w+'
+
+    def run(self, edit):
+        tags = ['@today']
+        tasks = [self.view.line(f) for f in self.view.find_all(r'[ \t](%s)' % '|'.join(tags)) if 'pending' in self.view.scope_name(f.a)]
+        print(tasks)
+        if not tasks:
+            sublime.status_message('Pending tasks with given tags are not found')
+            print(tags)
+            return
+        self.exec_folding(self.add_projects_and_notes(tasks))
+
+
 class PlainTasksAddGutterIconsForTags(sublime_plugin.EventListener):
     def on_activated(self, view):
         if not view.score_selector(0, "text.todo") > 0:
